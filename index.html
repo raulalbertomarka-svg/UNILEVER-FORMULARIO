@@ -10,7 +10,6 @@
       --azul-oscuro: #002F7A;
       --azul-claro: #e8f0fd;
       --rojo-alerta: #d32f2f; 
-      --blanco-unilever: #f5f8ff;
       --azul-proximos: #1565C0;
       --gris-fondo: #eef2f9; 
       --blanco: #ffffff;
@@ -18,66 +17,55 @@
     }
     body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--gris-fondo); padding: 10px; margin: 0; text-transform: uppercase; }
     .container { background: var(--blanco); padding: 25px; border-radius: 15px; max-width: 650px; margin: auto; box-shadow: 0 8px 25px rgba(0,71,187,0.13); border-top: 8px solid var(--azul-unilever); }
-    
+
+    /* ── Loading overlay ── */
+    #loading-overlay {
+      position: fixed; inset: 0; background: rgba(0,47,122,0.82);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 9999; gap: 18px;
+    }
+    .spinner {
+      width: 52px; height: 52px;
+      border: 5px solid rgba(255,255,255,0.25);
+      border-top-color: var(--acento);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading-overlay p { color: white; font-weight: bold; font-size: 13px; letter-spacing: 2px; margin: 0; }
+    #error-carga { display: none; background: #ffebee; color: var(--rojo-alerta); border: 2px solid var(--rojo-alerta); border-radius: 10px; padding: 15px; margin-bottom: 20px; font-size: 12px; font-weight: bold; text-align: center; }
+
+    /* ── Header ── */
     .header-unilever { text-align: center; margin-bottom: 25px; }
     .header-unilever .logo-wrapper { display: flex; justify-content: center; margin-bottom: 10px; }
-    .header-unilever svg { width: 64px; height: 64px; }
-    .header-unilever h2 { font-family: 'Georgia', serif; color: var(--azul-unilever); font-size: 30px; margin: 0; font-weight: bold; letter-spacing: 1px; }
+    .header-unilever h2 { font-family: 'Georgia', serif; color: var(--azul-unilever); font-size: 30px; margin: 0; font-weight: bold; }
     .header-unilever h4 { color: #555; margin: 4px 0 0 0; font-size: 11px; letter-spacing: 4px; font-weight: bold; }
-    
+    .header-divider { display: flex; align-items: center; gap: 10px; margin: 10px 0 0 0; }
+    .header-divider::before, .header-divider::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, transparent, var(--azul-unilever), transparent); }
+    .header-divider span { font-size: 10px; color: var(--azul-unilever); font-weight: bold; letter-spacing: 3px; white-space: nowrap; }
+
     label { font-weight: bold; display: block; margin-top: 20px; color: var(--azul-oscuro); font-size: 13px; }
     input, select { width: 100%; padding: 14px; margin-top: 6px; border: 2px solid #ccd8f0; border-radius: 8px; box-sizing: border-box; text-transform: uppercase; font-size: 14px; transition: border-color 0.2s; }
     input:focus, select:focus { outline: none; border-color: var(--azul-unilever); box-shadow: 0 0 0 3px rgba(0,71,187,0.12); }
 
-    /* ============================================
-       AUTOCOMPLETE PERSONALIZADO
-       ============================================ */
+    /* ── Autocomplete ── */
     .autocomplete-wrapper { position: relative; }
     .autocomplete-wrapper input { width: 100%; box-sizing: border-box; }
     .autocomplete-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 2px solid var(--azul-unilever);
-      border-top: none;
-      border-radius: 0 0 10px 10px;
-      max-height: 220px;
-      overflow-y: auto;
-      z-index: 1000;
-      box-shadow: 0 8px 20px rgba(0,71,187,0.15);
-      display: none;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: white; border: 2px solid var(--azul-unilever); border-top: none;
+      border-radius: 0 0 10px 10px; max-height: 220px; overflow-y: auto;
+      z-index: 1000; box-shadow: 0 8px 20px rgba(0,71,187,0.15); display: none;
     }
     .autocomplete-dropdown.visible { display: block; }
     .autocomplete-item {
-      padding: 12px 16px;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: bold;
-      color: #333;
-      border-bottom: 1px solid #eef2f9;
-      transition: background 0.15s;
+      padding: 12px 16px; cursor: pointer; font-size: 12px; font-weight: bold;
+      color: #333; border-bottom: 1px solid #eef2f9; transition: background 0.15s;
     }
     .autocomplete-item:last-child { border-bottom: none; }
-    .autocomplete-item:hover, .autocomplete-item.highlighted {
-      background: var(--azul-claro);
-      color: var(--azul-unilever);
-    }
-    .autocomplete-item .match-highlight {
-      background: rgba(0,71,187,0.15);
-      color: var(--azul-oscuro);
-      font-weight: 900;
-      border-radius: 2px;
-      padding: 0 1px;
-    }
-    .autocomplete-no-results {
-      padding: 12px 16px;
-      font-size: 12px;
-      color: #999;
-      font-style: italic;
-      text-transform: none;
-    }
+    .autocomplete-item:hover, .autocomplete-item.highlighted { background: var(--azul-claro); color: var(--azul-unilever); }
+    .autocomplete-item .match-highlight { background: rgba(0,71,187,0.15); color: var(--azul-oscuro); font-weight: 900; border-radius: 2px; padding: 0 1px; }
+    .autocomplete-no-results { padding: 12px 16px; font-size: 12px; color: #999; font-style: italic; text-transform: none; }
 
     .p-prod, .p-vendedor { border: 2px solid var(--azul-unilever) !important; background-color: var(--azul-claro); font-weight: bold; }
     .input-error { border: 3px solid var(--rojo-alerta) !important; background-color: #ffebee !important; }
@@ -88,7 +76,7 @@
     .btn-tab.active-venc { background: var(--acento); color: var(--azul-oscuro); }
     .btn-tab.active-prox { background: var(--azul-proximos); color: white; }
     .btn-tab.active-aver { background: var(--rojo-alerta); color: white; }
-    
+
     .pregunta-contenedor { background: var(--azul-claro); padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px solid #b8ceee; }
     .botones-decision { display: flex; gap: 15px; max-width: 250px; margin: auto; margin-top: 15px; }
     .btn-sn { flex: 1; padding: 12px; border: 2px solid #b8ceee; border-radius: 8px; background: white; cursor: pointer; font-weight: bold; transition: 0.2s; }
@@ -105,24 +93,20 @@
     .checklist-container { background: #fafbff; border: 1px solid #dde6f5; padding: 10px; border-radius: 8px; margin-top: 8px; }
     .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; cursor: pointer; font-size: 12px; }
     .check-item input[type="checkbox"] { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--azul-unilever); }
-
-    /* Línea decorativa inferior del header */
-    .header-divider {
-      display: flex; align-items: center; gap: 10px; margin: 10px 0 0 0;
-    }
-    .header-divider::before, .header-divider::after {
-      content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, transparent, var(--azul-unilever), transparent);
-    }
-    .header-divider span { font-size: 10px; color: var(--azul-unilever); font-weight: bold; letter-spacing: 3px; white-space: nowrap; }
   </style>
 </head>
 <body>
 
+<!-- Loading overlay mientras carga datos desde Sheets -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p>CARGANDO DATOS DESDE SHEETS...</p>
+</div>
+
 <div class="container">
   <div class="header-unilever">
     <div class="logo-wrapper">
-      <!-- Logo Unilever "U" simplificado en SVG con color corporativo -->
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
         <circle cx="50" cy="50" r="48" fill="#0047BB"/>
         <text x="50" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="68" font-weight="bold" fill="white">U</text>
       </svg>
@@ -132,20 +116,19 @@
     <div class="header-divider"><span>SISTEMA DE RELEVAMIENTO</span></div>
   </div>
 
+  <div id="error-carga">
+    ⚠️ ERROR AL CARGAR DATOS DESDE SHEETS.<br>
+    Verificá que el Script esté bien publicado y la URL sea correcta.
+  </div>
+
   <form id="formulario">
     <label>NOMBRE DEL RELEVADOR (BUSCAR)</label>
     <div class="autocomplete-wrapper">
-      <input 
-        type="text" 
-        id="vendedor" 
-        class="p-vendedor" 
-        placeholder="ESCRIBA PARA BUSCAR..." 
-        required 
-        autocomplete="off"
+      <input type="text" id="vendedor" class="p-vendedor" placeholder="ESCRIBA PARA BUSCAR..."
+        required autocomplete="off"
         oninput="onVendedorInput(this)"
         onkeydown="onVendedorKeydown(event)"
-        onfocus="onVendedorFocus()"
-      >
+        onfocus="onVendedorFocus()">
       <div class="autocomplete-dropdown" id="vendedor-dropdown"></div>
     </div>
 
@@ -155,111 +138,119 @@
     </select>
 
     <div class="selector-secciones">
-        <button type="button" id="tab-venc" class="btn-tab active-venc" onclick="cambiarTab('venc')">📅 VENCIDOS</button>
-        <button type="button" id="tab-prox" class="btn-tab" onclick="cambiarTab('prox')">⏳ PROX. A VENCER</button>
-        <button type="button" id="tab-aver" class="btn-tab" onclick="cambiarTab('aver')">⚠️ AVERIADOS</button>
+      <button type="button" id="tab-venc" class="btn-tab active-venc" onclick="cambiarTab('venc')">📅 VENCIDOS</button>
+      <button type="button" id="tab-prox" class="btn-tab" onclick="cambiarTab('prox')">⏳ PROX. A VENCER</button>
+      <button type="button" id="tab-aver" class="btn-tab" onclick="cambiarTab('aver')">⚠️ AVERIADOS</button>
     </div>
 
+    <!-- VENCIDOS -->
     <div id="panel-vencidos">
-        <div class="pregunta-contenedor">
-            <span style="font-size: 13px; font-weight: bold; color: var(--azul-oscuro);">¿HAY PRODUCTOS VENCIDOS?</span>
-            <div class="botones-decision">
-              <button type="button" id="venc-si" class="btn-sn" onclick="decidirCarga('venc', true)">SÍ</button>
-              <button type="button" id="venc-no" class="btn-sn" onclick="decidirCarga('venc', false)">NO</button>
-            </div>
+      <div class="pregunta-contenedor">
+        <span style="font-size:13px;font-weight:bold;color:var(--azul-oscuro);">¿HAY PRODUCTOS VENCIDOS?</span>
+        <div class="botones-decision">
+          <button type="button" id="venc-si" class="btn-sn" onclick="decidirCarga('venc', true)">SÍ</button>
+          <button type="button" id="venc-no" class="btn-sn" onclick="decidirCarga('venc', false)">NO</button>
         </div>
-        <div id="seccion-vencidos" class="seccion-productos">
-            <div id="cont-vencidos"></div>
-            <button type="button" class="btn-add" onclick="agregarFila('venc')">+ AÑADIR PRODUCTO</button>
-        </div>
+      </div>
+      <div id="seccion-vencidos" class="seccion-productos">
+        <div id="cont-vencidos"></div>
+        <button type="button" class="btn-add" onclick="agregarFila('venc')">+ AÑADIR PRODUCTO</button>
+      </div>
     </div>
 
+    <!-- PRÓXIMOS -->
     <div id="panel-proximos" style="display:none;">
-        <div class="pregunta-contenedor">
-            <span style="font-size: 13px; font-weight: bold; color: var(--azul-oscuro);">¿HAY PRODUCTOS PRÓXIMOS A VENCER?</span>
-            <div class="botones-decision">
-              <button type="button" id="prox-si" class="btn-sn" onclick="decidirCarga('prox', true)">SÍ</button>
-              <button type="button" id="prox-no" class="btn-sn" onclick="decidirCarga('prox', false)">NO</button>
-            </div>
+      <div class="pregunta-contenedor">
+        <span style="font-size:13px;font-weight:bold;color:var(--azul-oscuro);">¿HAY PRODUCTOS PRÓXIMOS A VENCER?</span>
+        <div class="botones-decision">
+          <button type="button" id="prox-si" class="btn-sn" onclick="decidirCarga('prox', true)">SÍ</button>
+          <button type="button" id="prox-no" class="btn-sn" onclick="decidirCarga('prox', false)">NO</button>
         </div>
-        <div id="seccion-proximos" class="seccion-productos">
-            <div id="cont-proximos"></div>
-            <button type="button" class="btn-add" onclick="agregarFila('prox')">+ AÑADIR PRODUCTO</button>
-        </div>
+      </div>
+      <div id="seccion-proximos" class="seccion-productos">
+        <div id="cont-proximos"></div>
+        <button type="button" class="btn-add" onclick="agregarFila('prox')">+ AÑADIR PRODUCTO</button>
+      </div>
     </div>
 
+    <!-- AVERIADOS -->
     <div id="panel-averiados" style="display:none;">
-        <div class="pregunta-contenedor">
-            <span style="font-size: 13px; font-weight: bold; color: var(--azul-oscuro);">¿HAY PRODUCTOS AVERIADOS?</span>
-            <div class="botones-decision">
-              <button type="button" id="aver-si" class="btn-sn" onclick="decidirCarga('aver', true)">SÍ</button>
-              <button type="button" id="aver-no" class="btn-sn" onclick="decidirCarga('aver', false)">NO</button>
-            </div>
+      <div class="pregunta-contenedor">
+        <span style="font-size:13px;font-weight:bold;color:var(--azul-oscuro);">¿HAY PRODUCTOS AVERIADOS?</span>
+        <div class="botones-decision">
+          <button type="button" id="aver-si" class="btn-sn" onclick="decidirCarga('aver', true)">SÍ</button>
+          <button type="button" id="aver-no" class="btn-sn" onclick="decidirCarga('aver', false)">NO</button>
         </div>
-        <div id="seccion-averiados" class="seccion-productos">
-            <div id="cont-averiados"></div>
-            <button type="button" class="btn-add" onclick="agregarFila('aver')">+ AÑADIR AVERÍA</button>
-        </div>
+      </div>
+      <div id="seccion-averiados" class="seccion-productos">
+        <div id="cont-averiados"></div>
+        <button type="button" class="btn-add" onclick="agregarFila('aver')">+ AÑADIR AVERÍA</button>
+      </div>
     </div>
 
     <button type="submit" class="btn-enviar" id="btnEnvio">ENVIAR REPORTE</button>
   </form>
 </div>
 
-<!-- Lista de productos: REEMPLAZAR con productos reales de Unilever -->
-<datalist id="lista-productos-datalist">
-    <option value="PRODUCTO UNILEVER - EJEMPLO 1">
-    <option value="PRODUCTO UNILEVER - EJEMPLO 2">
-    <option value="PRODUCTO UNILEVER - EJEMPLO 3">
-</datalist>
-
 <script>
-const PRODUCTOS_VALIDOS = Array.from(document.querySelectorAll("#lista-productos-datalist option")).map(opt => opt.value);
+// ============================================================
+// ⚠️ ÚNICA LÍNEA QUE DEBÉS CAMBIAR: pegá tu URL del Apps Script
+// ============================================================
+const SCRIPT_URL = "PEGAR_URL_DEL_APPS_SCRIPT_AQUI";
+// ============================================================
+
+let PRODUCTOS_VALIDOS  = [];
+let datosPDV           = {};
+let todosLosRelevadores = [];
+
+// ── Carga inicial de datos desde Sheets ─────────────────────
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const resp  = await fetch(`${SCRIPT_URL}?accion=todos`);
+    const datos = await resp.json();
+
+    // Relevadores y PDVs
+    datosPDV            = datos.relevadores || {};
+    todosLosRelevadores = Object.keys(datosPDV);
+
+    // Productos
+    PRODUCTOS_VALIDOS = datos.productos || [];
+
+    document.getElementById("loading-overlay").style.display = "none";
+  } catch (err) {
+    document.getElementById("loading-overlay").style.display = "none";
+    document.getElementById("error-carga").style.display     = "block";
+    console.error("Error cargando datos:", err);
+  }
+});
 
 // ============================================================
-// DATOS PDV: REEMPLAZAR con los relevadores y PDV de Unilever
-// ============================================================
-const datosPDV = {
-  "RELEVADOR EJEMPLO 1": ["PDV EJEMPLO A", "PDV EJEMPLO B", "PDV EJEMPLO C"],
-  "RELEVADOR EJEMPLO 2": ["PDV EJEMPLO D", "PDV EJEMPLO E"]
-};
-
-const todosLosRelevadores = Object.keys(datosPDV);
-
-// ============================================================
-// AUTOCOMPLETE PERSONALIZADO
+// AUTOCOMPLETE RELEVADOR
 // ============================================================
 let highlightedIndex = -1;
 
 function normalizarTexto(texto) {
-  return texto.toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+  return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function resaltarCoincidencia(nombre, query) {
-  const nombreNorm = normalizarTexto(nombre);
-  const queryNorm = normalizarTexto(query);
-  const idx = nombreNorm.indexOf(queryNorm);
+  const idx = normalizarTexto(nombre).indexOf(normalizarTexto(query));
   if (idx === -1) return nombre;
-  const antes = nombre.substring(0, idx);
-  const coincide = nombre.substring(idx, idx + query.length);
-  const despues = nombre.substring(idx + query.length);
-  return `${antes}<span class="match-highlight">${coincide}</span>${despues}`;
+  return nombre.substring(0, idx)
+    + `<span class="match-highlight">${nombre.substring(idx, idx + query.length)}</span>`
+    + nombre.substring(idx + query.length);
 }
 
 function mostrarDropdown(resultados, query) {
   const dropdown = document.getElementById("vendedor-dropdown");
   highlightedIndex = -1;
-  if (resultados.length === 0) {
-    dropdown.innerHTML = `<div class="autocomplete-no-results">No se encontraron resultados para "${query}"</div>`;
-  } else {
-    dropdown.innerHTML = resultados.map((nombre, i) =>
-      `<div class="autocomplete-item" data-valor="${nombre}" onmousedown="seleccionarRelevador('${nombre.replace(/'/g,"\\'")}')">
-        ${resaltarCoincidencia(nombre, query)}
-      </div>`
-    ).join("");
-  }
+  dropdown.innerHTML = resultados.length === 0
+    ? `<div class="autocomplete-no-results">Sin resultados para "${query}"</div>`
+    : resultados.map(n =>
+        `<div class="autocomplete-item" data-valor="${n}" onmousedown="seleccionarRelevador('${n.replace(/'/g,"\\'")}')">
+          ${resaltarCoincidencia(n, query)}
+        </div>`
+      ).join("");
   dropdown.classList.add("visible");
 }
 
@@ -269,47 +260,32 @@ function cerrarDropdown() {
 }
 
 function onVendedorInput(input) {
-  const query = input.value.trim();
   input.value = input.value.toUpperCase();
+  const query = input.value.trim();
   if (query.length < 2) { cerrarDropdown(); actualizarPDV(); return; }
-  const queryNorm = normalizarTexto(query);
-  const resultados = todosLosRelevadores.filter(nombre => normalizarTexto(nombre).includes(queryNorm));
-  mostrarDropdown(resultados, query);
+  const qn = normalizarTexto(query);
+  mostrarDropdown(todosLosRelevadores.filter(n => normalizarTexto(n).includes(qn)), query);
   actualizarPDV();
 }
 
 function onVendedorFocus() {
   const query = document.getElementById("vendedor").value.trim();
   if (query.length >= 2) {
-    const queryNorm = normalizarTexto(query);
-    const resultados = todosLosRelevadores.filter(nombre => normalizarTexto(nombre).includes(queryNorm));
-    mostrarDropdown(resultados, query);
+    const qn = normalizarTexto(query);
+    mostrarDropdown(todosLosRelevadores.filter(n => normalizarTexto(n).includes(qn)), query);
   }
 }
 
 function onVendedorKeydown(event) {
-  const dropdown = document.getElementById("vendedor-dropdown");
-  const items = dropdown.querySelectorAll(".autocomplete-item");
-  if (event.key === "ArrowDown") {
-    event.preventDefault();
-    highlightedIndex = Math.min(highlightedIndex + 1, items.length - 1);
-    actualizarHighlight(items);
-  } else if (event.key === "ArrowUp") {
-    event.preventDefault();
-    highlightedIndex = Math.max(highlightedIndex - 1, 0);
-    actualizarHighlight(items);
-  } else if (event.key === "Enter") {
-    event.preventDefault();
-    if (highlightedIndex >= 0 && items[highlightedIndex]) {
-      seleccionarRelevador(items[highlightedIndex].dataset.valor);
-    }
-  } else if (event.key === "Escape") {
-    cerrarDropdown();
-  }
+  const items = document.getElementById("vendedor-dropdown").querySelectorAll(".autocomplete-item");
+  if (event.key === "ArrowDown")  { event.preventDefault(); highlightedIndex = Math.min(highlightedIndex + 1, items.length - 1); actualizarHighlight(items); }
+  else if (event.key === "ArrowUp")   { event.preventDefault(); highlightedIndex = Math.max(highlightedIndex - 1, 0); actualizarHighlight(items); }
+  else if (event.key === "Enter")     { event.preventDefault(); if (highlightedIndex >= 0 && items[highlightedIndex]) seleccionarRelevador(items[highlightedIndex].dataset.valor); }
+  else if (event.key === "Escape")    { cerrarDropdown(); }
 }
 
 function actualizarHighlight(items) {
-  items.forEach((item, i) => item.classList.toggle("highlighted", i === highlightedIndex));
+  items.forEach((it, i) => it.classList.toggle("highlighted", i === highlightedIndex));
   if (items[highlightedIndex]) items[highlightedIndex].scrollIntoView({ block: "nearest" });
 }
 
@@ -319,7 +295,7 @@ function seleccionarRelevador(nombre) {
   actualizarPDV();
 }
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", e => {
   if (!e.target.closest(".autocomplete-wrapper")) {
     document.querySelectorAll(".autocomplete-dropdown").forEach(d => d.classList.remove("visible"));
     highlightedIndex = -1;
@@ -327,55 +303,47 @@ document.addEventListener("click", function(e) {
 });
 
 function actualizarPDV() {
-  const relevadorSeleccionado = document.getElementById("vendedor").value;
-  const selectPDV = document.getElementById("pdv");
-  if (datosPDV[relevadorSeleccionado]) {
-    selectPDV.innerHTML = '<option value="">-- SELECCIONE PDV --</option>';
-    datosPDV[relevadorSeleccionado].forEach(pdv => {
-      let option = document.createElement("option");
-      option.value = pdv;
-      option.textContent = pdv;
-      selectPDV.appendChild(option);
+  const rel = document.getElementById("vendedor").value;
+  const sel = document.getElementById("pdv");
+  if (datosPDV[rel]) {
+    sel.innerHTML = '<option value="">-- SELECCIONE PDV --</option>';
+    datosPDV[rel].forEach(pdv => {
+      const o = document.createElement("option");
+      o.value = o.textContent = pdv;
+      sel.appendChild(o);
     });
   } else {
-    selectPDV.innerHTML = '<option value="">-- RELEVADOR NO VÁLIDO --</option>';
-  }
-}
-
-function cambiarTab(t) {
-  document.getElementById('panel-vencidos').style.display = (t === 'venc') ? 'block' : 'none';
-  document.getElementById('panel-proximos').style.display = (t === 'prox') ? 'block' : 'none';
-  document.getElementById('panel-averiados').style.display = (t === 'aver') ? 'block' : 'none';
-  document.getElementById('tab-venc').className = (t === 'venc') ? 'btn-tab active-venc' : 'btn-tab';
-  document.getElementById('tab-prox').className = (t === 'prox') ? 'btn-tab active-prox' : 'btn-tab';
-  document.getElementById('tab-aver').className = (t === 'aver') ? 'btn-tab active-aver' : 'btn-tab';
-}
-
-let respuestas = { venc: null, prox: null, aver: null };
-
-function decidirCarga(tipo, tiene) {
-  respuestas[tipo] = tiene;
-  document.getElementById(`${tipo}-si`).className = tiene ? 'btn-sn active-si' : 'btn-sn';
-  document.getElementById(`${tipo}-no`).className = !tiene ? 'btn-sn active-no' : 'btn-sn';
-  const idSeccion = tipo === 'venc' ? 'vencidos' : (tipo === 'prox' ? 'proximos' : 'averiados');
-  document.getElementById(`seccion-${idSeccion}`).style.display = tiene ? "block" : "none";
-  const cont = document.getElementById(`cont-${idSeccion}`);
-  if (tiene && cont.children.length === 0) agregarFila(tipo);
-}
-
-function validarProducto(input) {
-  const errorMsg = input.parentElement.querySelector(".msg-error");
-  if (input.value === "" || PRODUCTOS_VALIDOS.includes(input.value)) {
-    input.classList.remove('input-error');
-    if(errorMsg) errorMsg.style.display = "none";
-  } else {
-    input.classList.add('input-error');
-    if(errorMsg) errorMsg.style.display = "block";
+    sel.innerHTML = '<option value="">-- RELEVADOR NO VÁLIDO --</option>';
   }
 }
 
 // ============================================================
-// AUTOCOMPLETE DE PRODUCTOS
+// TABS
+// ============================================================
+function cambiarTab(t) {
+  ["venc","prox","aver"].forEach(id => {
+    document.getElementById(`panel-${id === "venc" ? "vencidos" : id === "prox" ? "proximos" : "averiados"}`).style.display = (t === id) ? "block" : "none";
+    document.getElementById(`tab-${id}`).className = (t === id) ? `btn-tab active-${id}` : "btn-tab";
+  });
+}
+
+// ============================================================
+// DECISIONES SI/NO
+// ============================================================
+let respuestas = { venc: null, prox: null, aver: null };
+
+function decidirCarga(tipo, tiene) {
+  respuestas[tipo] = tiene;
+  document.getElementById(`${tipo}-si`).className = tiene  ? "btn-sn active-si" : "btn-sn";
+  document.getElementById(`${tipo}-no`).className = !tiene ? "btn-sn active-no" : "btn-sn";
+  const id = tipo === "venc" ? "vencidos" : tipo === "prox" ? "proximos" : "averiados";
+  document.getElementById(`seccion-${id}`).style.display = tiene ? "block" : "none";
+  const cont = document.getElementById(`cont-${id}`);
+  if (tiene && cont.children.length === 0) agregarFila(tipo);
+}
+
+// ============================================================
+// AUTOCOMPLETE PRODUCTOS
 // ============================================================
 let prodHighlightIndex = {};
 
@@ -383,97 +351,87 @@ function onProductoInput(input, uid) {
   input.value = input.value.toUpperCase();
   const query = input.value.trim();
   if (query.length < 2) { cerrarDropdownProducto(uid); validarProducto(input); return; }
-  const queryNorm = normalizarTexto(query);
-  const resultados = PRODUCTOS_VALIDOS.filter(p => normalizarTexto(p).includes(queryNorm)).slice(0, 30);
-  mostrarDropdownProducto(uid, resultados, query, input);
+  const qn = normalizarTexto(query);
+  mostrarDropdownProducto(uid, PRODUCTOS_VALIDOS.filter(p => normalizarTexto(p).includes(qn)).slice(0, 30), query);
   validarProducto(input);
 }
 
 function onProductoFocus(input, uid) {
   const query = input.value.trim();
   if (query.length >= 2) {
-    const queryNorm = normalizarTexto(query);
-    const resultados = PRODUCTOS_VALIDOS.filter(p => normalizarTexto(p).includes(queryNorm)).slice(0, 30);
-    mostrarDropdownProducto(uid, resultados, query, input);
+    const qn = normalizarTexto(query);
+    mostrarDropdownProducto(uid, PRODUCTOS_VALIDOS.filter(p => normalizarTexto(p).includes(qn)).slice(0, 30), query);
   }
 }
 
-function mostrarDropdownProducto(uid, resultados, query, input) {
-  const dropdown = document.getElementById('prod-drop-' + uid);
+function mostrarDropdownProducto(uid, resultados, query) {
+  const dropdown = document.getElementById("prod-drop-" + uid);
   prodHighlightIndex[uid] = -1;
-  if (resultados.length === 0) {
-    dropdown.innerHTML = '<div class="autocomplete-no-results">Sin resultados para "' + query + '"</div>';
-  } else {
-    dropdown.innerHTML = resultados.map(p =>
-      '<div class="autocomplete-item" data-valor="' + p.replace(/"/g,'&quot;') + '" onmousedown="seleccionarProducto(this, \'' + uid + '\')">' + resaltarCoincidencia(p, query) + '</div>'
-    ).join('');
-  }
-  dropdown.classList.add('visible');
+  dropdown.innerHTML = resultados.length === 0
+    ? `<div class="autocomplete-no-results">Sin resultados para "${query}"</div>`
+    : resultados.map(p =>
+        `<div class="autocomplete-item" data-valor="${p.replace(/"/g,"&quot;")}" onmousedown="seleccionarProducto(this,'${uid}')">
+          ${resaltarCoincidencia(p, query)}
+        </div>`
+      ).join("");
+  dropdown.classList.add("visible");
 }
 
 function cerrarDropdownProducto(uid) {
-  const dropdown = document.getElementById('prod-drop-' + uid);
-  if (dropdown) dropdown.classList.remove('visible');
+  const d = document.getElementById("prod-drop-" + uid);
+  if (d) d.classList.remove("visible");
   prodHighlightIndex[uid] = -1;
 }
 
 function seleccionarProducto(item, uid) {
-  const valor = item.dataset.valor;
-  const dropdown = document.getElementById('prod-drop-' + uid);
-  const wrapper = dropdown.closest('.autocomplete-wrapper');
-  const input = wrapper.querySelector('.p-prod');
-  input.value = valor;
+  const wrapper = document.getElementById("prod-drop-" + uid).closest(".autocomplete-wrapper");
+  const input   = wrapper.querySelector(".p-prod");
+  input.value   = item.dataset.valor;
   cerrarDropdownProducto(uid);
   validarProducto(input);
 }
 
 function onProductoKeydown(event, uid) {
-  const dropdown = document.getElementById('prod-drop-' + uid);
-  const items = dropdown.querySelectorAll('.autocomplete-item');
+  const items = document.getElementById("prod-drop-" + uid).querySelectorAll(".autocomplete-item");
   if (prodHighlightIndex[uid] === undefined) prodHighlightIndex[uid] = -1;
-  if (event.key === 'ArrowDown') {
-    event.preventDefault();
-    prodHighlightIndex[uid] = Math.min(prodHighlightIndex[uid] + 1, items.length - 1);
-    items.forEach((it, i) => it.classList.toggle('highlighted', i === prodHighlightIndex[uid]));
-    if (items[prodHighlightIndex[uid]]) items[prodHighlightIndex[uid]].scrollIntoView({ block: 'nearest' });
-  } else if (event.key === 'ArrowUp') {
-    event.preventDefault();
-    prodHighlightIndex[uid] = Math.max(prodHighlightIndex[uid] - 1, 0);
-    items.forEach((it, i) => it.classList.toggle('highlighted', i === prodHighlightIndex[uid]));
-    if (items[prodHighlightIndex[uid]]) items[prodHighlightIndex[uid]].scrollIntoView({ block: 'nearest' });
-  } else if (event.key === 'Enter') {
-    event.preventDefault();
-    if (prodHighlightIndex[uid] >= 0 && items[prodHighlightIndex[uid]]) {
-      seleccionarProducto(items[prodHighlightIndex[uid]], uid);
-    }
-  } else if (event.key === 'Escape') {
-    cerrarDropdownProducto(uid);
-  }
+  if (event.key === "ArrowDown")  { event.preventDefault(); prodHighlightIndex[uid] = Math.min(prodHighlightIndex[uid] + 1, items.length - 1); items.forEach((it, i) => it.classList.toggle("highlighted", i === prodHighlightIndex[uid])); if (items[prodHighlightIndex[uid]]) items[prodHighlightIndex[uid]].scrollIntoView({ block: "nearest" }); }
+  else if (event.key === "ArrowUp")   { event.preventDefault(); prodHighlightIndex[uid] = Math.max(prodHighlightIndex[uid] - 1, 0); items.forEach((it, i) => it.classList.toggle("highlighted", i === prodHighlightIndex[uid])); if (items[prodHighlightIndex[uid]]) items[prodHighlightIndex[uid]].scrollIntoView({ block: "nearest" }); }
+  else if (event.key === "Enter")     { event.preventDefault(); if (prodHighlightIndex[uid] >= 0 && items[prodHighlightIndex[uid]]) seleccionarProducto(items[prodHighlightIndex[uid]], uid); }
+  else if (event.key === "Escape")    { cerrarDropdownProducto(uid); }
+}
+
+function validarProducto(input) {
+  const err = input.parentElement.querySelector(".msg-error");
+  const ok  = input.value === "" || PRODUCTOS_VALIDOS.includes(input.value);
+  input.classList.toggle("input-error", !ok);
+  if (err) err.style.display = ok ? "none" : "block";
 }
 
 function toggleOtros(checkbox) {
   const row = checkbox.closest(".producto-row");
-  const inputOtros = row.querySelector(".input-otros-especificar");
-  inputOtros.style.display = checkbox.checked ? "block" : "none";
-  if(!checkbox.checked) inputOtros.value = "";
+  const inp = row.querySelector(".input-otros-especificar");
+  inp.style.display = checkbox.checked ? "block" : "none";
+  if (!checkbox.checked) inp.value = "";
 }
 
+// ============================================================
+// AGREGAR FILA DE PRODUCTO
+// ============================================================
 function agregarFila(tipo) {
-  const idCont = tipo === 'venc' ? 'vencidos' : (tipo === 'prox' ? 'proximos' : 'averiados');
-  const contenedor = document.getElementById(`cont-${idCont}`);
-  const div = document.createElement("div");
+  const id   = tipo === "venc" ? "vencidos" : tipo === "prox" ? "proximos" : "averiados";
+  const cont = document.getElementById(`cont-${id}`);
+  const div  = document.createElement("div");
   div.className = "producto-row";
-  
-  if(tipo === 'aver') div.style.borderLeftColor = "var(--rojo-alerta)";
-  if(tipo === 'prox') div.style.borderLeftColor = "var(--azul-proximos)";
-  if(tipo === 'venc') div.style.borderLeftColor = "var(--acento)";
-  
+  if (tipo === "aver") div.style.borderLeftColor = "var(--rojo-alerta)";
+  if (tipo === "prox") div.style.borderLeftColor = "var(--azul-proximos)";
+  if (tipo === "venc") div.style.borderLeftColor = "var(--acento)";
+
   const camposFecha = `
     <div style="flex:2">
       <label>VENCIMIENTO</label>
       <input type="date" class="p-extra" required>
     </div>`;
-    
+
   const camposAver = `
     <div style="flex:2">
       <label>TIPO DE AVERÍA (CHECKLIST)</label>
@@ -484,7 +442,7 @@ function agregarFila(tipo) {
         <label class="check-item"><input type="checkbox" value="CAJA ROTA"> CAJA ROTA</label>
         <label class="check-item"><input type="checkbox" value="PRODUCTO DAÑADO POR ROEDORES"> PRODUCTO DAÑADO POR ROEDORES</label>
         <label class="check-item"><input type="checkbox" value="OTROS" onchange="toggleOtros(this)"> OTROS (ESPECIFICAR)</label>
-        <input type="text" class="input-otros-especificar" placeholder="ESCRIBA EL MOTIVO..." style="display:none; margin-top:5px; padding:10px;" oninput="this.value = this.value.toUpperCase()">
+        <input type="text" class="input-otros-especificar" placeholder="ESCRIBA EL MOTIVO..." style="display:none;margin-top:5px;padding:10px;" oninput="this.value=this.value.toUpperCase()">
       </div>
     </div>`;
 
@@ -493,113 +451,97 @@ function agregarFila(tipo) {
     <label>PRODUCTO (SELECCIÓN OBLIGATORIA)</label>
     <div class="autocomplete-wrapper">
       <input type="text" class="p-prod" placeholder="BUSCAR PRODUCTO..." required autocomplete="off"
-        oninput="onProductoInput(this, '${uid}')"
-        onkeydown="onProductoKeydown(event, '${uid}')"
-        onfocus="onProductoFocus(this, '${uid}')">
+        oninput="onProductoInput(this,'${uid}')"
+        onkeydown="onProductoKeydown(event,'${uid}')"
+        onfocus="onProductoFocus(this,'${uid}')">
       <div class="autocomplete-dropdown" id="prod-drop-${uid}"></div>
     </div>
     <span class="msg-error">⚠️ DEBE SELECCIONAR UN PRODUCTO DE LA LISTA</span>
-    
-    <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
-      ${tipo === 'aver' ? camposAver : camposFecha}
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px;">
+      ${tipo === "aver" ? camposAver : camposFecha}
       <div style="flex:1">
         <label>CANT. (OBLIGATORIO)</label>
         <input type="number" class="p-cant" min="1" placeholder="EJ: 5" required>
       </div>
     </div>
-    <button type="button" class="btn-remove" onclick="this.parentElement.remove()">ELIMINAR</button><div style="clear:both"></div>`;
-  contenedor.appendChild(div);
+    <button type="button" class="btn-remove" onclick="this.parentElement.remove()">ELIMINAR</button>
+    <div style="clear:both"></div>`;
+  cont.appendChild(div);
 }
 
-document.getElementById("formulario").onsubmit = function(e) {
+// ============================================================
+// ENVÍO DEL FORMULARIO
+// ============================================================
+document.getElementById("formulario").onsubmit = async function(e) {
   e.preventDefault();
-  
-  if (respuestas.venc === null || respuestas.prox === null || respuestas.aver === null) { 
-    alert("DEBE COMPLETAR TODOS LOS APARTADOS (VENCIDOS, PRÓXIMOS Y AVERIADOS)."); 
-    return; 
-  }
 
+  if (respuestas.venc === null || respuestas.prox === null || respuestas.aver === null) {
+    alert("DEBE COMPLETAR TODOS LOS APARTADOS (VENCIDOS, PRÓXIMOS Y AVERIADOS).");
+    return;
+  }
   if (!datosPDV[document.getElementById("vendedor").value]) {
     alert("POR FAVOR SELECCIONE UN RELEVADOR VÁLIDO DE LA LISTA.");
     return;
   }
 
-  let inputsProductos = document.querySelectorAll(".p-prod");
   let hayErrores = false;
-  inputsProductos.forEach(input => {
+  document.querySelectorAll(".p-prod").forEach(input => {
     if (!PRODUCTOS_VALIDOS.includes(input.value)) {
-      input.classList.add('input-error');
-      const errorMsg = input.parentElement.querySelector(".msg-error");
-      if(errorMsg) errorMsg.style.display = "block";
+      input.classList.add("input-error");
+      const err = input.parentElement.querySelector(".msg-error");
+      if (err) err.style.display = "block";
       hayErrores = true;
     }
   });
-
-  if (hayErrores) {
-    alert("❌ NO SE PUEDE ENVIAR: HAY PRODUCTOS NO VÁLIDOS EN LA LISTA.");
-    return;
-  }
+  if (hayErrores) { alert("❌ NO SE PUEDE ENVIAR: HAY PRODUCTOS NO VÁLIDOS."); return; }
 
   const btn = document.getElementById("btnEnvio");
-  btn.disabled = true; btn.innerText = "ENVIANDO...";
+  btn.disabled = true;
+  btn.innerText = "ENVIANDO...";
 
   const payload = {
     relevador: document.getElementById("vendedor").value,
-    pdv: document.getElementById("pdv").value,
-    vencidos: [],
-    proximos: [],
+    pdv:       document.getElementById("pdv").value,
+    vencidos:  [],
+    proximos:  [],
     averiados: []
   };
 
   document.querySelectorAll("#cont-vencidos .producto-row").forEach(r => {
-    payload.vencidos.push({ 
-      producto: r.querySelector(".p-prod").value, 
-      extra: r.querySelector(".p-extra").value, 
-      cant: r.querySelector(".p-cant").value 
-    });
+    payload.vencidos.push({ producto: r.querySelector(".p-prod").value, extra: r.querySelector(".p-extra").value, cant: r.querySelector(".p-cant").value });
   });
-
   document.querySelectorAll("#cont-proximos .producto-row").forEach(r => {
-    payload.proximos.push({ 
-      producto: r.querySelector(".p-prod").value, 
-      extra: r.querySelector(".p-extra").value, 
-      cant: r.querySelector(".p-cant").value 
-    });
+    payload.proximos.push({ producto: r.querySelector(".p-prod").value, extra: r.querySelector(".p-extra").value, cant: r.querySelector(".p-cant").value });
   });
 
+  let averiasOk = true;
   document.querySelectorAll("#cont-averiados .producto-row").forEach(r => {
-    let seleccionados = [];
-    r.querySelectorAll(".checklist-container input[type='checkbox']:checked").forEach(check => {
-      if(check.value === "OTROS") {
-        let espec = r.querySelector(".input-otros-especificar").value;
-        seleccionados.push("OTROS: " + (espec ? espec : "SIN ESPECIFICAR"));
-      } else {
-        seleccionados.push(check.value);
-      }
+    const checks = [];
+    r.querySelectorAll(".checklist-container input[type='checkbox']:checked").forEach(c => {
+      checks.push(c.value === "OTROS"
+        ? "OTROS: " + (r.querySelector(".input-otros-especificar").value || "SIN ESPECIFICAR")
+        : c.value);
     });
-
-    if(seleccionados.length === 0) {
-      alert("POR FAVOR SELECCIONE AL MENOS UN TIPO DE AVERÍA.");
-      btn.disabled = false; btn.innerText = "ENVIAR REPORTE";
-      throw "Validación Checklist fallida";
-    }
-
-    payload.averiados.push({ 
-      producto: r.querySelector(".p-prod").value, 
-      observacion: seleccionados.join(" | "), 
-      cant: r.querySelector(".p-cant").value 
-    });
+    if (checks.length === 0) { averiasOk = false; return; }
+    payload.averiados.push({ producto: r.querySelector(".p-prod").value, observacion: checks.join(" | "), cant: r.querySelector(".p-cant").value });
   });
 
-  // ⚠️ REEMPLAZAR con la URL del Google Apps Script de Unilever
-  fetch("https://script.google.com/macros/s/AKfycbwNilVjrCzyTPPMCY5GhPsA_UYdMGFDAwkwYztjztrrjsFug-y-YbHMY5NSI8GAoYHM/exec", {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(payload)
-  }).then(() => { 
-    alert("REPORTE ENVIADO CORRECTAMENTE A UNILEVER"); 
-    location.reload(); 
-  });
+  if (!averiasOk) {
+    alert("POR FAVOR SELECCIONE AL MENOS UN TIPO DE AVERÍA.");
+    btn.disabled = false;
+    btn.innerText = "ENVIAR REPORTE";
+    return;
+  }
+
+  try {
+    await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+    alert("✅ REPORTE ENVIADO CORRECTAMENTE A UNILEVER");
+    location.reload();
+  } catch (err) {
+    alert("❌ ERROR AL ENVIAR. Verificá tu conexión e intentá de nuevo.");
+    btn.disabled = false;
+    btn.innerText = "ENVIAR REPORTE";
+  }
 };
 </script>
 </body>
